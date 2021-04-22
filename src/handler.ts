@@ -112,8 +112,11 @@ export async function handlePullRequest(
       const assignees = utils.chooseAssignees(owner, config)
 
       if (assignees.length > 0) {
+        core.info(`config: ${config.includeOwner ? 'true' : 'false'}`)
         await pr.addAssignees(assignees)
-        core.info(`Added assignees to PR #${number}: ${assignees.join(', ')}`)
+        core.info(
+          `Log: Added assignees to PR #${number}: ${assignees.join(', ')}`
+        )
       }
     } catch (error) {
       core.warning(error.message)

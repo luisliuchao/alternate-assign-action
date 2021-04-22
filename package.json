@@ -4,7 +4,7 @@
   "description": "Add reviewers to pull requests when pull requests are opened.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kentaro-m/auto-assign-action.git"
+    "url": "git+https://github.com/luisliuchao/alternate-assign-action.git"
   },
   "main": "lib/main.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "format-check": "prettier --check **/*.ts",
     "package": "ncc build --source-map --license licenses.txt"
   },
-  "author": "Kentaro Matsushita",
+  "author": "Liu Chao",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.1.1",

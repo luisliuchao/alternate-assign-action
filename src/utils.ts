@@ -1,3 +1,4 @@
+import * as core from '@actions/core'
 import _ from 'lodash'
 import * as github from '@actions/github'
 import * as yaml from 'js-yaml'
@@ -132,6 +133,7 @@ export async function fetchConfigurationFile(client: github.GitHub, options) {
 
   const configString = Buffer.from(data.content, 'base64').toString()
   const config = yaml.safeLoad(configString)
+  core.info(`config ${config} ${config.includeOwner ? 'true' : 'false'}`)
 
   return config
 }
