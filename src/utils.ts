@@ -4,7 +4,13 @@ import * as yaml from 'js-yaml'
 import { Config } from './handler'
 
 export function chooseReviewers(owner: string, config: Config): string[] {
-  const { useReviewGroups, reviewGroups, numberOfReviewers, reviewers } = config
+  const {
+    useReviewGroups,
+    reviewGroups,
+    numberOfReviewers,
+    reviewers,
+    includeOwner,
+  } = config
   let chosenReviewers: string[] = []
   const useGroups: boolean =
     useReviewGroups && Object.keys(reviewGroups).length > 0
@@ -13,7 +19,8 @@ export function chooseReviewers(owner: string, config: Config): string[] {
     chosenReviewers = chooseUsersFromGroups(
       owner,
       reviewGroups,
-      numberOfReviewers
+      numberOfReviewers,
+      includeOwner
     )
   } else {
     chosenReviewers = chooseUsers(reviewers, numberOfReviewers, owner)
@@ -31,6 +38,7 @@ export function chooseAssignees(owner: string, config: Config): string[] {
     numberOfReviewers,
     assignees,
     reviewers,
+    includeOwner,
   } = config
   let chosenAssignees: string[] = []
 
@@ -48,7 +56,8 @@ export function chooseAssignees(owner: string, config: Config): string[] {
     chosenAssignees = chooseUsersFromGroups(
       owner,
       assigneeGroups,
-      numberOfAssignees || numberOfReviewers
+      numberOfAssignees || numberOfReviewers,
+      includeOwner
     )
   } else {
     const candidates = assignees ? assignees : reviewers
@@ -95,11 +104,13 @@ export function includesSkipKeywords(
 export function chooseUsersFromGroups(
   owner: string,
   groups: { [key: string]: string[] } | undefined,
-  desiredNumber: number
+  desiredNumber: number,
+  includeOwner: boolean
 ): string[] {
+  const filterUser = includeOwner ? '' : owner
   let users: string[] = []
   for (const group in groups) {
-    users = users.concat(chooseUsers(groups[group], desiredNumber, owner))
+    users = users.concat(chooseUsers(groups[group], desiredNumber, filterUser))
   }
   return users
 }
